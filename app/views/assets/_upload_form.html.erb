@@ -9,6 +9,7 @@
 		<%= f.label "Choose the file:" %><br/>
 		<div class="file">
 			<%= f.file_field :uploaded_data, :id => "file"+ @count.to_s %><br /> <!-- give the file field an id -->
+			<%= f.submit "submit" %>
 			
 		</div>
 
