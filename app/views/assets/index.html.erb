@@ -1,0 +1,7 @@
+<%- for asset in @assets -%>
+	<%= link_to image_tag(asset.public_filename(:thumb)), asset_path(asset) %><br />
+<%- end -%>
+
+<br />
+
+<%= link_to 'New asset', new_asset_path %>
