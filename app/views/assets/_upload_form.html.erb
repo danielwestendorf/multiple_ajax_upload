@@ -3,13 +3,13 @@
 		<%= error_messages_for :asset %>
 	</div>
 	
-	<% form_for @asset, :url => { :action => 'create', :format => 'js', :form => @count}, :html => { :multipart => true, :target => 'upload_frame'+@count.to_s, :name => @count} do |f| %><!-- create form, :form => @count {send the form count as a param}, :target => 'upload_frame'+@count.to_s {set the target to the correct iframe}, :name => @count {name the form}  -->
+	<% form_for @asset, :url => { :action => 'create', :format => 'js', :form => @count}, :html => { :multipart => true, :target => 'upload_frame'+ @count.to_s, :name => @count} do |f| %><!-- create form, :form => @count {send the form count as a param}, :target => 'upload_frame'+@count.to_s {set the target to the correct iframe}, :name => @count {name the form}  -->
 
 	  <p>
 		<%= f.label "Choose the file:" %><br/>
 		<div class="file">
 			<%= f.file_field :uploaded_data, :id => "file"+ @count.to_s %><br /> <!-- give the file field an id -->
-			<%= f.submit "submit" %>
+			<%= f.submit "Submit", :id => 'submit'+ @count.to_s %>
 			
 		</div>
 

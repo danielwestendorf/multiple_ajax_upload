@@ -41,11 +41,6 @@ class AssetsController < ApplicationController
     end
   end
 
-  # GET /assets/1/edit
-  def edit
-    @asset = Asset.find(params[:id])
-  end
-
   # POST /assets
   # POST /assets.xml
   def create
@@ -58,7 +53,7 @@ class AssetsController < ApplicationController
         format.js do
           responds_to_parent do
             render :update do |page|
-              page.replace_html form, "Asset Uploaded!" #replace the correct form with some simple text
+              page.replace_html form, image_tag(@asset.public_filename(:thumb)) #replace the correct form with some simple text
             end
           end
         end
@@ -76,25 +71,7 @@ class AssetsController < ApplicationController
     end
   end
 
-  # PUT /assets/1
-  # PUT /assets/1.xml
-  def update
-    @asset = Asset.find(params[:id])
 
-    respond_to do |format|
-      if @asset.update_attributes(params[:asset])
-        flash[:notice] = 'Asset was successfully updated.'
-        format.html { redirect_to(@asset) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @asset.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /assets/1
-  # DELETE /assets/1.xml
   def destroy
     @asset = Asset.find(params[:id])
     @asset.destroy

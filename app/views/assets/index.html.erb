@@ -1,5 +1,10 @@
 <%- for asset in @assets -%>
-	<%= link_to image_tag(asset.public_filename(:thumb)), asset_path(asset) %><br />
+	<table>
+		<tr>
+			<td><%= link_to image_tag(asset.public_filename(:thumb)), asset_path(asset) %></td>
+			<td><%= link_to "Delete", asset_path(asset), :method => :delete %></td>
+		</tr>
+	</table>
 <%- end -%>
 
 <br />
