@@ -3,21 +3,13 @@
 	<%= render :partial => 'upload_form', :object => @count%> <!-- render the upload_form partial -->
 </div>
 
-<%= link_to_remote 'Another Upload?', :action => 'new', :html => { :style => 'display:none', :id => 'addForm' } %><br /> <!-- Call the new action via ajax, which will insert another form at the bottom of the 'form_div', use JS to show link, as it won't work without JS -->
+<%= link_to_remote 'Another Upload?', :action => 'new' %><br /> <!-- Call the new action via ajax, which will insert another form at the bottom of the 'form_div', use JS to show link, as it won't work without JS -->
 
 <%= link_to 'Back', assets_path %>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('#addForm').show(); //show the 'Another Upload?' link
-		addChange(<%= @count %>); //add the onchange event to the first form when the html is ready
-	});
-	
-	function addChange(count){//called by add_asset.js.rjs
-		fileField = '#file' + count; //set the id of the file field that was just inserted
-		submitButton = '#submit' + count; //set the id of the submit button, so we can remove it
-		$(fileField).bind('change', function(){this.form.submit()}); // bind the onchange event of the file field to submit the form
-		$(submitButton).remove();//remove the submit button for the form
-	};
-
+	$(document).ready( function() {
+		$('input:disabled').removeAttr("disabled"); //make sure the form isn't disabled
+		addChange('#file<%= @uuid.to_s %>', '<%= @uuid.to_s %>'); //add the change event to the first form
+	})
 </script>

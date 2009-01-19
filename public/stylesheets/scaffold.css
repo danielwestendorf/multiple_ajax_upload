@@ -52,3 +52,9 @@ a:hover { color: #fff; background-color:#000; }
   list-style: square;
 }
 
+.uploadForm {
+	border: 2px solid black;
+	width: 420px;
+	padding: 10px;
+	margin: 10px;
+}

@@ -1,2 +1,2 @@
-page.insert_html :bottom, 'form_div', :partial => 'upload_form', :object => @count #insert the form, passing the @count variable to indentify the form
-page << "addChange(#{@count});" #call the javascript function addChange, which binds the onchange event to the file field
+page.insert_html :bottom, 'form_div', :partial => 'upload_form' #insert the form, passing the @uuid variable to indentify the form
+page << "addChange('#file#{@uuid.to_s}', '#{@uuid}');" #call the addChange JS function on the form just inserted

@@ -3,7 +3,6 @@ class AssetsController < ApplicationController
   # GET /assets.xml
   def index
     @assets = Asset.primary.find(:all)
-    session[:upload] = nil #reset the session[:upload] variable
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,8 +14,7 @@ class AssetsController < ApplicationController
   # GET /assets/1.xml
   def show
     @asset = Asset.find(params[:id])
-    session[:upload] = nil #reset the session[:upload] variable
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @asset }
@@ -26,16 +24,13 @@ class AssetsController < ApplicationController
   # GET /assets/new
   # GET /assets/new.xml
   def new
-    session[:upload] ||= 0 #if there isn't a session[:upload] variable set, set it to 0. This variable is reset when the index or show actions are called to reset the form
     @asset = Asset.new
-    @count = session[:upload] #make the count availabe to the view. We will use this to identify which form has submited the post, which tells us form to respond to
+    @uuid = (0..29).to_a.map { |x| rand(10) } #the unique identifier for the form and the upload
 
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @asset }
       format.js do
-        session[:upload] += 1 #increment the count. This happens every time the new action is called (ie the 'add upload' button is clicked)
-        @count = session[:upload] #update the @count variable
         render :action => 'add_asset.js.rjs'
       end
     end
@@ -53,17 +48,20 @@ class AssetsController < ApplicationController
         format.js do
           responds_to_parent do
             render :update do |page|
-              page.replace_html form, image_tag(@asset.public_filename(:thumb)) #replace the correct form with some simple text
+              page.insert_html :bottom, form, image_tag(@asset.public_filename(:thumb)) #replace the correct form with some simple text
             end
           end
         end
       else
         error = "error"+params[:form].to_s #identify the correct error div id for the form
+        @uuid = (0..29).to_a.map { |x| rand(10) }
         format.html { render :action => "new" }
         format.js do
           responds_to_parent do
             render :update do |page|
-              page.replace_html error, "#{error_messages_for :asset}"
+              page.replace_html error, "#{error_messages_for :asset}" #insert the error messages
+              page << "$('#uploading#{params[:form].to_s}').remove();"#remove the progress bar
+              page << "$('input:disabled').removeAttr(\"disabled\");" #make it possible to select another file
             end
           end
         end

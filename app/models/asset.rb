@@ -2,7 +2,7 @@ class Asset < ActiveRecord::Base
   named_scope :primary, :conditions => { :parent_id => nil }
   
   has_attachment :storage => :file_system,
-                 :max_size => 50.kilobytes,
+                 :max_size => 2.megabytes,
                  :thumbnails => {:thumb => '150x150>'}
   
   validates_as_attachment
