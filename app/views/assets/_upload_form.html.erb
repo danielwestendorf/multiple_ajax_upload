@@ -1,21 +1,21 @@
-<div id="form<%= @uuid.to_s %>" class="uploadForm"> <!-- Identify the from -->
-	<div id="<%= "error"+ @uuid.to_s %>"><!-- set a div for this form's error messages, must be set so it can be found and replaced by ajax call -->
+<div id="<%= "form" + @uuid.to_s %>" class="uploadForm"> <!-- Identify the from -->
+	<div id="<%= "error"+ @uuid.to_s %>" style="display: none;"><!-- set a div for this form's error messages, must be set so it can be found and replaced by ajax call -->
 		<%= error_messages_for :asset %>
 	</div>
 		
-	<% form_for @asset, :url => { :action => 'create', :format => 'js', 'X-Progress-ID' => @uuid.to_s, :form => @uuid.to_s}, :html => { :multipart => true, :target => 'upload_frame'+ @uuid.to_s } do |f| %><!-- create form, :form => @uuid {send the form count as a param}, :target => 'upload_frame'+@uuid.to_s {set the target to the correct iframe} -->
+	<% form_for @asset, :url => { :action => 'create', :format => 'js', 'X-Progress-ID' => @uuid.to_s, :form => @uuid.to_s}, :html => { :multipart => true, :target => 'upload_frame'+ @uuid.to_s, :id => @uuid.to_s } do |f| %><!-- create form, :form => @uuid {send the form count as a param}, :target => 'upload_frame'+@uuid.to_s {set the target to the correct iframe} -->
 
 	  <p>
 		<%= f.label "Choose the file:" %><br/>
 		<div class="file">
 			<%= hidden_field_tag 'X-Progress-ID', @uuid %>
-			<%= f.file_field :uploaded_data, :id => "file"+ @uuid.to_s  %><br /> <!-- give the file field an id -->
-			<div id="uploading<%= @uuid.to_s %>" style="display:none;">
-				<div id="progressBar<%= @uuid.to_s %>"></div>
+			<%= f.file_field :uploaded_data, :id => "file" + @uuid.to_s  %><br /> <!-- give the file field an id -->
+			<div id="<%= "uploading" + @uuid.to_s %>" style="display:none;">
+				<div id="<%= "progressBar" + @uuid.to_s %>"></div>
 			</div>
 		</div>
 	<% end %>
 	
 			
 </div>
-<iframe id='upload_frame<%= @uuid %>' name="upload_frame<%= @uuid %>" style="width:1px;height:1px;border:0px" src="about:blank"></iframe><!-- create iframe for the form, outside the form_div to avoid JS errors when the form_div is replaced -->
+<iframe id="<%= "upload_frame" + @uuid.to_s %>" name="<%= "upload_frame" + @uuid.to_s %>" style="width:1px;height:1px;border:0px" src="about:blank"></iframe><!-- create iframe for the form, outside the form_div to avoid JS errors when the form_div is replaced -->

@@ -39,3 +39,29 @@ function addChange(inputId, uuid) { //apply the onchange event to the file_field
 		this.disabled='true'; //disables the 'Browse' button on the file_field
 	 });
 };
+
+function updateProgressId(oldUUID) {
+	var oldFormId = '#' + oldUUID;
+	var oldErrorId = '#error' + oldUUID;
+	var oldFormDiv = '#form' + oldUUID;
+	var oldFileField = '#file' + oldUUID;
+	var oldUploadingDiv = '#uploading' + oldUUID;
+	var oldProgressBar = '#progressBar' + oldUUID;
+	
+	$(oldFileField).unbind("change");
+	var newUUID = "";
+	for (i = 0; i < 10; i++) {
+		newUUID += Math.floor(Math.random() * 16).toString(16);
+	};
+	$(oldFormId).attr("action", "/assets.js?X-Progress-ID=" + newUUID + "&form=" + newUUID );
+	$(oldFileField).bind("change", function() { $('#error' + newUUID).fadeOut();});
+	$(oldFormId).attr("id", newUUID);
+	$(oldFileField).attr("id", "file" + newUUID);
+	$(oldFormDiv).attr("id", "form" + newUUID);
+	$(oldErrorId).attr("id", "error" + newUUID);
+	$(oldUploadingDiv).attr("id", "uploading" + newUUID);
+	$(oldProgressBar).progressBar(0, {speed: -10});
+	$(oldProgressBar).attr("id", "progressBar" + newUUID);
+	
+	addChange('#file' + newUUID, newUUID);
+};

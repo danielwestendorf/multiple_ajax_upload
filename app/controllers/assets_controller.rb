@@ -54,14 +54,14 @@ class AssetsController < ApplicationController
         end
       else
         error = "error"+params[:form].to_s #identify the correct error div id for the form
-        @uuid = (0..29).to_a.map { |x| rand(10) }
         format.html { render :action => "new" }
         format.js do
           responds_to_parent do
             render :update do |page|
               page.replace_html error, "#{error_messages_for :asset}" #insert the error messages
-              page << "$('#uploading#{params[:form].to_s}').remove();"#remove the progress bar
+              page << "$('##{error}').fadeIn();"
               page << "$('input:disabled').removeAttr(\"disabled\");" #make it possible to select another file
+              page << "updateProgressId('#{params[:form].to_s}');"
             end
           end
         end
